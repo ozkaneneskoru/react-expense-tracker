@@ -1,6 +1,7 @@
-import { Form, Input, Button,message,Space } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
+import showError from '../utils/showError';
 
 
 function SignUp() {
@@ -18,19 +19,19 @@ function SignUp() {
       range: '${label} must be between ${min} and ${max}',
     },
   };
-   const history = useNavigate();
+  const history = useNavigate();
   const onFinish = async (values: any) => {
     try {
       await api.post("/users/register", values);
-       history('/login');
+      history('/login', { state: { newSignUp: true } });
     }
     catch (error) {
-      message.error((error as any).response.data.errorMessage);
+      showError((error as any).response.data.errorMessage);
     }
   };
   return (
     <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
-      <h2 style={{ textAlign: "center", marginBottom: 20}}>Register for an account</h2>
+      <h2 style={{ textAlign: "center", marginBottom: 20 }}>Register for an account</h2>
       <Form.Item name="username" label="UserName" rules={[{ required: true }]}>
         <Input />
       </Form.Item>

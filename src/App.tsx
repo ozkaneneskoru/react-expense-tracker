@@ -2,6 +2,7 @@ import React from "react";
 import SignUp from "./components/SignUp";
 import { Layout, Menu } from 'antd';
 import { Route, Routes } from "react-router-dom";
+import Login from "./components/Login";
 
 const { Header, Content, Footer } = Layout;
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <React.Fragment>
           <Routes>
             <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<Login />}></Route>
           </Routes>
 
         </React.Fragment>
