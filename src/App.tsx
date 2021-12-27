@@ -1,8 +1,9 @@
 import React from "react";
 import SignUp from "./components/SignUp";
 import { Layout, Menu } from 'antd';
-import { Route, Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Login from "./components/Login";
+import Category from "./components/Category";
 
 const { Header, Content, Footer } = Layout;
 function App() {
@@ -20,13 +21,9 @@ function App() {
         className="site-layout"
         style={{ padding: "50px", marginTop: 64 }}
       >
-        <React.Fragment>
-          <Routes>
-            <Route path="/register" element={<SignUp />} />
-            <Route path="/login" element={<Login />}></Route>
-          </Routes>
-
-        </React.Fragment>
+        <Route path="/register" component={SignUp} />
+        <Route path="/login" component={Login} />
+        <Route path="/categories" component={Category} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>Expense Tracker @OzkanEnesKoru 2021</Footer>
     </Layout>);

@@ -1,21 +1,48 @@
 import { Form, Input, Button, Result } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
-import api from '../utils/api';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { login } from '../store/actions/userAction';
+import { AppState } from '../store/reducers';
+import { LoginForm } from '../types/user';
+import showError from '../utils/showError';
+import showSuccessMessage from '../utils/showSuccess';
+// import api from '../utils/api';
 
 
 function Login() {
-    const navigate = useNavigate();
+    const history = useHistory();
+    const dispatch = useDispatch();
     const { state } = useLocation();
     let newSignUp = state;
-    const onFinish = async (values: any) => {
-        try {
-            await api.post("/users/login", values);
-            navigate("/");
-        }
-        catch (error) {
-            console.log(error);
-        }
-    };
+
+    const { data, loading, error } = useSelector((state: AppState) => state.user);
+
+    const onFinish = async (values: LoginForm) => {
+        dispatch(login(values));
+    }
+    useEffect(() => {
+        error && showError(error);
+    }, [error])
+
+    useEffect(() => {
+        data.username && showSuccessMessage("You have successfully login!");
+    }, [data.username])
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) history.push("/");
+    })
+
+    // const onFinish = async (values: any) => {
+    //     try {
+    //         await api.post("/users/login", values);
+    //         navigate("/");
+    //     }
+    //     catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);

@@ -1,5 +1,5 @@
 import { Form, Input, Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import api from '../utils/api';
 import showError from '../utils/showError';
 
@@ -19,11 +19,11 @@ function SignUp() {
       range: '${label} must be between ${min} and ${max}',
     },
   };
-  const history = useNavigate();
+  const history = useHistory();
   const onFinish = async (values: any) => {
     try {
       await api.post("/users/register", values);
-      history('/login', { state: { newSignUp: true } });
+      history.push('/login', { state: { newSignUp: true } });
     }
     catch (error) {
       showError((error as any).response.data.errorMessage);
